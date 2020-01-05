@@ -10,7 +10,7 @@ Prerequisite: node 10.9.0 or newer should be installed
 Installation:
  - download the latest release from the [releases page](https://github.com/erosb/mvn-search/releases)
  - extract the zip
- - optional: set up the following alias: `alias mvn-search="<ZIP-EXTRACTION-DIR>/index.js"`
+ - optional: set up the following alias: `alias mvn-search="node <ZIP-EXTRACTION-DIR>/index.js"`
  
 ## Usage: `mvn-search <query-string>`
 
