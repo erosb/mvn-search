@@ -34,6 +34,12 @@ function versionSearchResponseArrived(resp) {
 
 function mvnSearchResponseArrived(resp) {
     const hits = JSON.parse(resp).response.docs;
+
+    if (hits.length === 0) {
+        console.error(`no results`)
+        newSearch();
+        return;
+    }
     
     lastSearchResults = hits.map(val => {
         return {
@@ -54,6 +60,7 @@ function mvnSearchResponseArrived(resp) {
     inquirer.prompt({
         type: "list",
         name: "coordinates",
+        "pageSize": 30,
         choices
     }).then(answers => {
         const ans = answers.coordinates;
