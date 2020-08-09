@@ -5,13 +5,18 @@ search.maven.org
 
 ## Installation 
 
-Prerequisite: node 10.9.0 or newer should be installed
+Prerequisite: node `10.9.0` or newer should be installed.
 
-Installation:
+<!-- Installation:
  - download the latest release from the [releases page](https://github.com/erosb/mvn-search/releases)
  - extract the zip
  - optional: set up the following alias: `alias mvn-search="node <ZIP-EXTRACTION-DIR>/index.js"`
- 
+  -->
+
+```bash
+npm install -g mvn-search
+```
+
 ## Usage: `mvn-search <query-string>`
 
 This will list the found artifacts with their latest version numbers. After selecting the coordinates the tool displays
