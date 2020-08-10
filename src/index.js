@@ -21,7 +21,7 @@ function versionSearchResponseArrived(resp) {
         console.log("no result");
         return;
     }
-    needle = hits[0];
+    let needle = hits[0];
     const filtered = lastSearchResults.filter(e => e.groupId === needle.g && e.artifactId === needle.a);
     if (filtered.length === 0) {
         console.warn(`could not find ${needle.groupId}:${needle.artifactId}`);
@@ -123,8 +123,10 @@ function startSearch(searchTerm) {
     .then(mvnSearchResponseArrived);
 }
 
-if (process.argv.length < 3 || process.argv[2].trim() === "") {
+export function search(argv) {
+    if (argv.length < 3 || argv[2].trim() === "") {
     newSearch();
-} else {
-    startSearch(process.argv[2]);
+    } else {
+        startSearch(argv[2]);
+    }
 }

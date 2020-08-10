@@ -1,16 +1,34 @@
 {
-  "name": "mvn-search",
-  "version": "0.0.1",
-  "description": "",
-  "main": "index.js",
+  "name": "@erosb/mvn-search",
+  "version": "0.0.2",
+  "description": "CLI to search the Maven dependencies",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "@erosb/mvn-search": "bin/mvn-search",
+    "mvn-search": "bin/mvn-search"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "cli",
+    "mvn",
+    "search",
+    "java",
+    "dependency"
+  ],
+  "repository": {
+    "url": "https://github.com/erosb/mvn-search"
   },
   "author": "Bence Eros",
   "license": "MIT",
   "dependencies": {
     "clipboardy": "^2.1.0",
     "copy-to-clipboard": "^3.2.0",
+    "esm": "^3.2.25",
     "inquirer": "^7.0.0",
     "node-fetch": "^2.6.0"
   }
