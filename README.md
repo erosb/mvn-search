@@ -14,7 +14,7 @@ Prerequisite: node `10.9.0` or newer should be installed.
   -->
 
 ```bash
-npm install -g mvn-search
+npm install -g @erosb/mvn-search
 ```
 
 ## Usage: `mvn-search <query-string>`
