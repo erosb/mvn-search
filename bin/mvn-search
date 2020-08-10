@@ -1,4 +1,24 @@
 #!/usr/bin/env node
+const yargs = require('yargs');
+
+const args = yargs
+    .scriptName('mvn-search')
+    .usage('$0 <query-string> [args]', 'search for maven dependency', (yargs) => {
+        yargs.positional('query-string', {
+            describe: 'the dependency you search for',
+            type: 'string'
+        })
+    })
+    .option('format', {
+        alias: 'f',
+        description: 'Define in which format to print dependency. (kotlin, KotlinGroovy, Maven)',
+        type: 'string',
+        default: 'maven'
+    })
+    .string("asd")
+    .help()
+    .alias('help', 'h')
+    .argv;
 
 require = require('esm')(module /*, options*/);
-require('../src/index').search(process.argv);
+require('../src/index').search(args['query-string'], args.format);
