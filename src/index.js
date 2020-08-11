@@ -161,8 +161,8 @@ function startSearch(searchTerm) {
 }
 
 export function search(term, format) {
-    searchTerm = term || "";
-    dependencyFormat = format || "maven";
+    searchTerm = term || '';
+    dependencyFormat = format || 'maven';
     if (term.trim() === "") {
         newSearch();
     } else {
