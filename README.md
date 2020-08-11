@@ -3,6 +3,8 @@
 This is a utility for developers who prefer searching maven dependencies in the command line instead of the web UI of
 search.maven.org
 
+![Searching demo](output.gif "Searching demo")
+
 ## Installation 
 
 Prerequisite: node `10.9.0` or newer should be installed.
