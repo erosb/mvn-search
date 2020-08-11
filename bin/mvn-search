@@ -11,7 +11,7 @@ const args = yargs
     })
     .option('format', {
         alias: 'f',
-        description: 'Define in which format to print dependency. (kotlin, KotlinGroovy, Maven)',
+        description: 'Define in which format to print dependency. (gradle, gradlegroovy, maven)',
         type: 'string',
         default: 'maven'
     })
