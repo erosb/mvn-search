@@ -3,7 +3,7 @@ const yargs = require('yargs');
 
 const args = yargs
     .scriptName('mvn-search')
-    .usage('$0 <query-string> [args]', 'search for maven dependency', (yargs) => {
+    .usage('$0 [args] <query-string>', 'search for maven dependency', (yargs) => {
         yargs.positional('query-string', {
             describe: 'the dependency you search for',
             type: 'string'
@@ -11,7 +11,7 @@ const args = yargs
     })
     .option('format', {
         alias: 'f',
-        description: 'Define in which format to print dependency. (gradle, gradlegroovy, maven, sbt)',
+        description: 'Define in which format to print dependency. (gradle, gradlekts, gradlegroovy, maven, sbt)',
         type: 'string',
         default: 'maven'
     })
