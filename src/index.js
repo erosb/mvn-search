@@ -46,7 +46,7 @@ function formatDependencyGradleGroovy(depencency) {
         `;
 }
 
-function formatDependencySbt(dependency) {
+function formatDependencySbt(depencency) {
     return `
         libraryDependencies += "${depencency.groupId}" % "${depencency.artifactId}" % "${depencency.versions[0]}"
         `;
