@@ -16,6 +16,8 @@ function formatDependency(dependency) {
             return formatDependencyGradleKotlin(dependency);
         case 'gradlegroovy':
             return formatDependencyGradleGroovy(dependency);
+        case 'sbt':
+            return formatDependencySbt(dependency);
         case 'maven':
         default:
             return formatDependencyXml(dependency);
@@ -33,11 +35,21 @@ function formatDependencyXml(depencency) {
 }
 
 function formatDependencyGradleKotlin(depencency) {
-    return `implementation("${depencency.groupId}:${depencency.artifactId}:${depencency.versions[0]}")`;
+    return `
+        implementation("${depencency.groupId}:${depencency.artifactId}:${depencency.versions[0]}")
+        `;
 }
 
 function formatDependencyGradleGroovy(depencency) {
-    return `implementation '${depencency.groupId}:${depencency.artifactId}:${depencency.versions[0]}'`;
+    return `
+        implementation '${depencency.groupId}:${depencency.artifactId}:${depencency.versions[0]}'
+        `;
+}
+
+function formatDependencySbt(dependency) {
+    return `
+        libraryDependencies += "${depencency.groupId}" % "${depencency.artifactId}" % "${depencency.versions[0]}"
+        `;
 }
 
 function versionSearchResponseArrived(resp) {
