@@ -6,6 +6,23 @@ const ProxyAgent = require("proxy-agent");
 const proxyAgent = new ProxyAgent();
 
 let lastSearchResults;
+let searchTerm;
+let dependencyFormat;
+
+function formatDependency(dependency) {
+    switch (dependencyFormat.toLowerCase()) {
+        case 'gradlekts':
+        case 'gradle':
+            return formatDependencyGradleKotlin(dependency);
+        case 'gradlegroovy':
+            return formatDependencyGradleGroovy(dependency);
+        case 'sbt':
+            return formatDependencySbt(dependency);
+        case 'maven':
+        default:
+            return formatDependencyXml(dependency);
+    }
+}
 
 function formatDependencyXml(depencency) {
     return `
@@ -17,9 +34,27 @@ function formatDependencyXml(depencency) {
         `;
 }
 
+function formatDependencyGradleKotlin(depencency) {
+    return `
+        implementation("${depencency.groupId}:${depencency.artifactId}:${depencency.versions[0]}")
+        `;
+}
+
+function formatDependencyGradleGroovy(depencency) {
+    return `
+        implementation '${depencency.groupId}:${depencency.artifactId}:${depencency.versions[0]}'
+        `;
+}
+
+function formatDependencySbt(depencency) {
+    return `
+        libraryDependencies += "${depencency.groupId}" % "${depencency.artifactId}" % "${depencency.versions[0]}"
+        `;
+}
+
 function versionSearchResponseArrived(resp) {
     const hits = JSON.parse(resp).response.docs;
-    if (hits.length == 0) {
+    if (hits.length === 0) {
         console.log("no result");
         return;
     }
@@ -42,7 +77,7 @@ function mvnSearchResponseArrived(resp) {
         newSearch();
         return;
     }
-    
+
     lastSearchResults = hits.map(val => {
         return {
             groupId: val.g,
@@ -51,13 +86,13 @@ function mvnSearchResponseArrived(resp) {
             versions: [val.latestVersion]
         };
     });
-    
+
     const choices = lastSearchResults.map(result => {
         return {
             name: result.groupId + ":" + result.artifactId + ":" + result.versions[0],
             value: result
         };
-        
+
     });
     inquirer.prompt({
         type: "list",
@@ -66,7 +101,7 @@ function mvnSearchResponseArrived(resp) {
         choices
     }).then(answers => {
         const ans = answers.coordinates;
-        console.log(formatDependencyXml(ans));
+        console.log(formatDependency(ans));
         inquirer.prompt([
             {
                 "type": "list",
@@ -98,8 +133,8 @@ function mvnSearchResponseArrived(resp) {
                 case "newSearch":
                     newSearch();
                     break;
-                case "copyToClipboard": 
-                    clipboardy.writeSync(formatDependencyXml(ans))
+                case "copyToClipboard":
+                    clipboardy.writeSync(formatDependency(ans))
                     break;
                 case "searchOlderVersions":
                     fetch("https://search.maven.org/solrsearch/select?rows=100&q=g:" + ans.groupId + "+AND+a:" + ans.artifactId + "&core=gav", {agent: proxyAgent})
@@ -108,7 +143,7 @@ function mvnSearchResponseArrived(resp) {
                     break;
             }
         });
-    });    
+    });
 }
 
 function newSearch() {
@@ -125,10 +160,12 @@ function startSearch(searchTerm) {
     .then(mvnSearchResponseArrived);
 }
 
-export function search(argv) {
-    if (argv.length < 3 || argv[2].trim() === "") {
-    newSearch();
+export function search(term, format) {
+    searchTerm = term || '';
+    dependencyFormat = format || 'maven';
+    if (searchTerm.trim() === "") {
+        newSearch();
     } else {
-        startSearch(argv[2]);
+        startSearch(searchTerm);
     }
 }
