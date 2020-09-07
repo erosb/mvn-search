@@ -30,7 +30,3 @@ the maven `<dependency>` tag to be pasted into the `pom.xml`.
  * `mvn-search hibernate-validator`
  * `mvn-search g:org.slf4j`
  
-## Screenshots
-
-![Searching by coordinates](https://github.com/erosb/mvn-search/raw/master/screenshot-1.png "Searching by coordinates")
-![Displaying dependency](https://github.com/erosb/mvn-search/raw/master/screenshot-2.png "Displaying dependency")
