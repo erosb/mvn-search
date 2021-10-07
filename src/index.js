@@ -24,31 +24,31 @@ function formatDependency(dependency) {
     }
 }
 
-function formatDependencyXml(depencency) {
+function formatDependencyXml(dependency) {
     return `
         <dependency>
-            <groupId>${depencency.groupId}</groupId>
-            <artifactId>${depencency.artifactId}</artifactId>
-            <version>${depencency.versions[0]}</version>
+            <groupId>${dependency.groupId}</groupId>
+            <artifactId>${dependency.artifactId}</artifactId>
+            <version>${dependency.versions[0]}</version>
         </dependency>
         `;
 }
 
-function formatDependencyGradleKotlin(depencency) {
+function formatDependencyGradleKotlin(dependency) {
     return `
-        implementation("${depencency.groupId}:${depencency.artifactId}:${depencency.versions[0]}")
+        implementation("${dependency.groupId}:${dependency.artifactId}:${dependency.versions[0]}")
         `;
 }
 
-function formatDependencyGradleGroovy(depencency) {
+function formatDependencyGradleGroovy(dependency) {
     return `
-        implementation '${depencency.groupId}:${depencency.artifactId}:${depencency.versions[0]}'
+        implementation '${dependency.groupId}:${dependency.artifactId}:${dependency.versions[0]}'
         `;
 }
 
-function formatDependencySbt(depencency) {
+function formatDependencySbt(dependency) {
     return `
-        libraryDependencies += "${depencency.groupId}" % "${depencency.artifactId}" % "${depencency.versions[0]}"
+        libraryDependencies += "${dependency.groupId}" % "${dependency.artifactId}" % "${dependency.versions[0]}"
         `;
 }
 
