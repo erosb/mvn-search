@@ -137,7 +137,7 @@ function mvnSearchResponseArrived(resp) {
                     clipboardy.writeSync(formatDependency(ans))
                     break;
                 case "searchOlderVersions":
-                    fetch("https://search.maven.org/solrsearch/select?rows=100&q=g:" + ans.groupId + "+AND+a:" + ans.artifactId + "&core=gav", {agent: proxyAgent})
+                    fetch("https://search.maven.org/solrsearch/select?rows=98&q=g:" + ans.groupId + "+AND+a:" + ans.artifactId + "&core=gav", {agent: proxyAgent})
                         .then(resp => resp.text())
                         .then(versionSearchResponseArrived);
                     break;
