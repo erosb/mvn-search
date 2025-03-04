@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const yargs = require('yargs');
-
+import yargs from 'yargs';
+import { search }  from "../src/index.js"
 const args = yargs
     .scriptName('mvn-search')
     .usage('$0 [args] <query-string>', 'search for maven dependency', (yargs) => {
@@ -19,5 +19,4 @@ const args = yargs
     .alias('help', 'h')
     .argv;
 
-require = require('esm')(module /*, options*/);
-require('../src/index').search(args['query-string'], args.format);
+search(args['query-string'], args.format);

@@ -1,9 +1,5 @@
-const fetch = require("node-fetch");
-const inquirer = require("inquirer");
-const clipboardy = require("clipboardy");
-const ProxyAgent = require("proxy-agent");
-
-const proxyAgent = new ProxyAgent();
+import inquirer from "inquirer";
+import clipboardy from "clipboardy";
 
 let lastSearchResults;
 let searchTerm;
@@ -137,7 +133,7 @@ function mvnSearchResponseArrived(resp) {
                     clipboardy.writeSync(formatDependency(ans))
                     break;
                 case "searchOlderVersions":
-                    fetch("https://search.maven.org/solrsearch/select?rows=98&q=g:" + ans.groupId + "+AND+a:" + ans.artifactId + "&core=gav", {agent: proxyAgent})
+                    fetch("https://search.maven.org/solrsearch/select?rows=98&q=g:" + ans.groupId + "+AND+a:" + ans.artifactId + "&core=gav")
                         .then(resp => resp.text())
                         .then(versionSearchResponseArrived);
                     break;
@@ -156,7 +152,7 @@ function newSearch() {
 }
 
 function startSearch(searchTerm) {
-    fetch("https://search.maven.org/solrsearch/select?rows=100&q=" + searchTerm, {agent: proxyAgent}).then(resp => resp.text())
+    fetch("https://search.maven.org/solrsearch/select?rows=100&q=" + searchTerm).then(resp => resp.text())
     .then(mvnSearchResponseArrived);
 }
 
