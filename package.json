@@ -1,6 +1,6 @@
 {
   "name": "@erosb/mvn-search",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "CLI to search the Maven dependencies",
   "main": "src/index.js",
   "type": "module",
