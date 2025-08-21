@@ -49,24 +49,16 @@ function formatDependencySbt(dependency) {
 }
 
 function versionSearchResponseArrived(resp) {
-    const hits = JSON.parse(resp).response.docs;
+    const hits = JSON.parse(resp).components;
     if (hits.length === 0) {
         console.log("no result");
         return;
     }
-    let needle = hits[0];
-    const filtered = lastSearchResults.filter(e => e.groupId === needle.g && e.artifactId === needle.a);
-    if (filtered.length === 0) {
-        console.warn(`could not find ${needle.groupId}:${needle.artifactId}`);
-        return;
-    }
-    const target = filtered[0];
-    hits.forEach(e => target.versions.push(e.v));
-    console.log(target.versions)
+    console.log(hits.map(v => v.version))
 }
 
 function mvnSearchResponseArrived(resp) {
-    const hits = JSON.parse(resp).response.docs;
+    const hits = JSON.parse(resp).components;
 
     if (hits.length === 0) {
         console.error(`no results`)
@@ -76,10 +68,10 @@ function mvnSearchResponseArrived(resp) {
 
     lastSearchResults = hits.map(val => {
         return {
-            groupId: val.g,
-            artifactId: val.a,
-            packaging: val.p,
-            versions: [val.latestVersion]
+            groupId: val.namespace,
+            artifactId: val.name,
+            packaging: val.packaging,
+            versions: [val.latestVersionInfo.version]
         };
     });
 
@@ -133,7 +125,7 @@ function mvnSearchResponseArrived(resp) {
                     clipboardy.writeSync(formatDependency(ans))
                     break;
                 case "searchOlderVersions":
-                    fetch("https://search.maven.org/solrsearch/select?rows=98&q=g:" + ans.groupId + "+AND+a:" + ans.artifactId + "&core=gav")
+                    fetch(`https://central.sonatype.com/api/internal/browse/component/versions?sortField=normalizedVersion&sortDirection=desc&page=0&size=12&filter=namespace%3A${ans.groupId}%2Cname%3A${ans.artifactId}`)
                         .then(resp => resp.text())
                         .then(versionSearchResponseArrived);
                     break;
@@ -152,7 +144,17 @@ function newSearch() {
 }
 
 function startSearch(searchTerm) {
-    fetch("https://search.maven.org/solrsearch/select?rows=100&q=" + searchTerm).then(resp => resp.text())
+    fetch("https://central.sonatype.com/api/internal/browse/components", {
+        method: "post",
+        headers: {
+            "content-type": "application/json"
+        },
+        body: JSON.stringify({
+            page: 0,
+            size: 20,
+            searchTerm: searchTerm
+        })
+    }).then(resp => resp.text())
     .then(mvnSearchResponseArrived);
 }
 
